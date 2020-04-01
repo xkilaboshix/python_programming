@@ -1,6 +1,8 @@
 # import lesson_package.utils
-from lesson_package import utils as d
+from lesson_package.talk import human
 
-r = d.say_twice('hello')
+# r = utils.say_twice('hello')
+# print(r)
 
-print(r)
+print(human.sing())
+print(human.cry())
