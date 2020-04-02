@@ -1,12 +1,26 @@
-import builtins
+s = "fdjddosffkeosakfjffkkwwwiiee"
 
-builtins.print('')
+d = {}
+for c in s:
+    if c not in d:
+        d[c] = 0
+    d[c] += 1
+print(d)
 
-ranking = {
-    'A': 100,
-    'B': 85,
-    'C': 95
-}
+d = {}
+for c in s:
+    d.setdefault(c, 0)
+    d[c] += 1
+print(d)
 
-print(sorted(ranking, key=ranking.get, reverse=True))
+from collections import defaultdict
+
+d = defaultdict(int)
+
+for c in s:
+    d[c] += 1
+print(d)
+
+print(d['w'])
+
 
