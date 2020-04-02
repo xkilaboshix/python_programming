@@ -1,10 +1,14 @@
-import lesson_package.talk.animal
+class Person:
+    def say_something(self):
+        print('hello')
 
-import config
+class Animal:
+     def say_something(self):
+         print('くぁwせdrftgyふじこlp')
 
-def main():
-    lesson_package.talk.animal.sing()
+person = Person()
+person.say_something()
 
-if __name__ == '__main__':
-    main()
+animal = Animal()
+animal.say_something()
 
