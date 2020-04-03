@@ -9,8 +9,15 @@ class Person(object):
     def run(self, num):
         print('run' * num)
 
+    def __del__(self):
+        print('good bye')
+
 person = Person('Mike')
 person.say_something()
+
+del person
+
+print('##############')
 
 
 
