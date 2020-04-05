@@ -1,4 +1,2 @@
-f = open('text.txt', 'w')
-f.write('Test\n')
-print('My', 'name', 'is', 'Mike', sep='#', end='!', file=f)
-f.close()
+with open('text.txt', 'w') as f:
+    f.write('Test\n')
