@@ -1,41 +1,19 @@
-import abc
+class Person(object):
+    def talk(self):
+        print('talk')
 
-class Person(metaclass=abc.ABCMeta):
-    def __init__(self, age=1):
-        self.age = age
-
-    @abc.abstractmethod
-    def drive(self):
-        pass
-
-class Baby(Person):
-    def __init__(self, age=1):
-        if age < 18:
-            super().__init__(age)
-        else:
-            raise ValueError
-
-    def drive(self):
-        raise Exception('No drive')
-
-class Adult(Person):
-    def __init__(self, age=18):
-        if age >= 18:
-            super().__init__(age)
-        else:
-            raise ValueError
-
-    def drive(self):
-        print('ok')
-baby = Baby()
-# baby.drive()
-adult = Adult()
-# adult.drive()
-class Car(object):
-    def __init__(self, model=None):
-        self.model = model
     def run(self):
-        print('run')
-    def ride(self, person):
-        person.drive()
+        print('person run')
+class Car(object):
+    def run(self):
+        print('car run')
+
+class PersonCarRobot(Person, Car):
+    def fly(self):
+        print('fly')
+
+person_car_robot = PersonCarRobot()
+person_car_robot.talk()
+person_car_robot.run()
+person_car_robot.fly()
 
