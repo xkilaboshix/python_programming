@@ -1,19 +1,32 @@
 class Person(object):
-    def talk(self):
-        print('talk')
 
-    def run(self):
-        print('person run')
-class Car(object):
-    def run(self):
-        print('car run')
+    kind = 'human'
 
-class PersonCarRobot(Person, Car):
-    def fly(self):
-        print('fly')
+    def __init__(self, name):
+        self.name = name
 
-person_car_robot = PersonCarRobot()
-person_car_robot.talk()
-person_car_robot.run()
-person_car_robot.fly()
+    def who_are_you(self):
+        print(self.name, self.kind)
 
+a = Person('A')
+a.who_are_you()
+b = Person('B')
+b.who_are_you()
+
+class T(object):
+
+    def __init__(self):
+        self.words = []
+
+    def add_word(self, word):
+        self.words.append(word)
+
+c = T()
+c.add_word('add 1')
+c.add_word('add 2')
+print(c.words)
+
+d = T()
+d.add_word('add 3')
+d.add_word('add 4')
+print(d.words)
