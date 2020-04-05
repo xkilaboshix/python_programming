@@ -12,8 +12,8 @@ class word(object):
     def __add__(self, word):
         return self.text.lower() + word.text.lower()
 
-    # def __eq__(self, word):
-    #     return self.text.lower() == word.text.lower()
+    def __eq__(self, word):
+        return self.text.lower() == word.text.lower()
 
 w = word('test')
 w2 = word('test')
