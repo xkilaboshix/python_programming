@@ -1,14 +1,15 @@
+import string
+
 s = """\
-AAA
-BBB
-CCC
-DDD
+
+Hi $name.
+
+$contents
+
+Have a good day
 """
 
-with open('text.txt', 'r+') as f:
-    print(f.read())
-    f.seek(0)
-    f.write(s)
 
-
-
+t = string.Template(s)
+contents = t.substitute(name='Mike', contents='How are you?')
+print(contents)
