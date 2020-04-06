@@ -1,31 +1,13 @@
-import os
-import pathlib
-import glob
-import shutil
+import tarfile
 
-# print(os.path.exists('text.txt'))
-# print(os.path.isfile('text.txt'))
-# print(os.path.isdir('design'))
 
-# os.rename('text.txt', 'renamed.txt')
-# os.symlink('renamed.txt', 'symlink.txt')
+with tarfile.open('test.tar.gz', 'w:gz') as tr:
+    tr.add('test_dir')
 
-# os.mkdir('test_dir')
-# os.rmdir('test_dir')
 
-# pathlib.Path('empty.txt').touch()
-# os.remove('empty.txt')
-
-# os.mkdir('test_dir')
-# os.mkdir('test_dir/test_dir2')
-# print(os.listdir('test_dir'))
-# pathlib.Path('test_dir/test_dir2/empty.txt').touch()
-# shutil.copy('test_dir/test_dir2/empty.txt',
-#             'test_dir/test_dir2/empty2.txt')
-# print(glob.glob('test_dir/test_dir2/*'))
-# shutil.rmtree('test_dir')
-
-print(os.getcwd())
-
+with tarfile.open('test.tar.gz', 'r:gz') as tr:
+    # tr.extractall(path='test_tar')
+    with tr.extractfile('test_dir/sub_dir/sub_test.txt') as f:
+        print(f.read())
 
 
