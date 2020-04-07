@@ -1,13 +1,15 @@
-import tarfile
+import glob
+import zipfile
 
 
-with tarfile.open('test.tar.gz', 'w:gz') as tr:
-    tr.add('test_dir')
+with zipfile.ZipFile('test.zip', 'w') as z:
+    # z.write('test_dir')
+    # z.write('test_dir/test.txt')
+    for f in glob.glob('test_dir/**', recursive=True):
+        # print(f)
+        z.write(f)
 
-
-with tarfile.open('test.tar.gz', 'r:gz') as tr:
-    # tr.extractall(path='test_tar')
-    with tr.extractfile('test_dir/sub_dir/sub_test.txt') as f:
+with zipfile.ZipFile('test.zip', 'r') as z:
+    # z.extractall('zzz2')
+    with z.open('test_dir/test.txt') as f:
         print(f.read())
-
-
