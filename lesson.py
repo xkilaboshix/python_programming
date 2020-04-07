@@ -24,3 +24,22 @@ d = datetime.timedelta(days=365)
 # d = datetime.timedelta(seconds=1)
 # d = datetime.timedelta(microseconds=1)
 print(now - d)
+
+import time
+# print("###")
+# time.sleep(2)
+# print("###")
+print(time.time())
+
+import os
+import shutil
+
+file_name = 'test.txt'
+
+if os.path.exists(file_name):
+    shutil.copy(file_name, "{}.{}".format(
+        file_name, now.strftime('%Y_%m_%d_%H_%M_%S')))
+
+with open(file_name, 'w') as f:
+    f.write('test')
+
