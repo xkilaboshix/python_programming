@@ -17,13 +17,13 @@ while True:
     fin = colored('Roboko: Thank you so much, {}!\nHave a good day!\n' + '=' * 40 + '\n', 'green')
     print(fin.format(name))
     if restaurant:
+        current_path = os.getcwd()  # カレントディレクトリパスを取得
+        file_name = 'ranking.csv'  # 検索ファイル名を指定
+        file_path = os.path.join(current_path, file_name)
+        myCheck = os.path.isfile(file_path)
         with open('ranking.csv', 'a') as csv_file:
             fieldnames = ['NAME', 'COUNT']
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            current_path = os.getcwd()  # カレントディレクトリパスを取得
-            file_name = 'ranking.csv'  # 検索ファイル名を指定
-            file_path = os.path.join(current_path, file_name)
-            myCheck = os.path.isfile(file_path)
             if not myCheck:
                 writer.writeheader()
                 writer.writerow({'NAME': restaurant, 'COUNT': 1})
