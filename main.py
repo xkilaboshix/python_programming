@@ -1,5 +1,10 @@
+from termcolor import colored
+
 while True:
-    name = input('Hello, I am Roboko. What is your name?\n')
+    name = input(colored('Hello, I am Roboko. What is your name?\n', 'green'))
     if name:
-        break
-    print(name + ", which restaurants do you like?")
+        restaurant = input(colored(name + ', which restaurants do you like?\n', 'green'))
+        if restaurant:
+            fin = colored('Roboko: Thank you so much, {}!\nHave a good day!', 'green')
+            print(fin.format(name))
+            break
