@@ -9,10 +9,16 @@ def read_csv():
         for row in reader:
            data.append(row)
         print(data)
-        print('##########')
+        print('#########################')
+        print(data[0])
+        print('#########################')
+        print(data[0]['NAME'])
+        print('#########################')
         for d in data:
             print(d)
         return data
+
+data = read_csv()
 
 def write_csv(data, restaurant):
     with open('ranking.csv', 'w') as csv_file:
@@ -24,7 +30,25 @@ def write_csv(data, restaurant):
             writer.writerow(d)
             print(d)
 
-        writer.writerow({'NAME': restaurant, 'COUNT': 1})
+        count = 1
+        writer.writerow({'NAME': restaurant, 'COUNT': count})
+
+        # if restaurant not in d.values():
+        #     print('oooooooooooooooooooooooooo')
+        #     for d in data:
+        #         print(d.values())
+        #     count = 1
+        #     writer.writerow({'NAME': restaurant, 'COUNT': count})
+        # else:
+        print('#############################')
+        # print(dic[restaurant])
+        # count = dic[d[restaurant]]
+        # count += 1
+        # writer.writerow({'NAME': restaurant, 'COUNT': count})
+
+dic = {}
+for d in data:
+    dic.update({d['NAME']: d['COUNT']})
 
 
 while True:
@@ -35,27 +59,60 @@ while True:
     cprint('Please enter your name!', 'red')
 
 
-data = read_csv()
-print(data)
 
 if data != []:
     while True:
         recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
         cprint('=' * 40, 'green')
-        answer = input(recommend).upper()
+        answer = input(recommend.format(data[0]['NAME'])).upper()
         if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
             break
-        # print(recommend.format())
+
 
 while True:
     cprint('=' * 40, 'green')
     restaurant = input(colored(name + ', which restaurants do you like?\n' + '=' * 40 + '\n', 'green')).title()
     cprint('=' * 40, 'green')
+
+    print('#############################')
+
+
+
+    if restaurant in dic.keys():
+        dic[restaurant] = int(dic[restaurant]) + 1
+        print(dic[restaurant])
+
     fin = colored('Roboko: Thank you so much, {}!\nHave a good day!\n' + '=' * 40 + '\n', 'green')
     print(fin.format(name))
     if restaurant:
         write_csv(data=read_csv(), restaurant=restaurant)
         break
+
+# dic = {}
+# for d in data:
+#     dic.update({d['NAME']: int(d['COUNT'])})
+
+# print(dic)
+
+if restaurant in dic.keys():
+    dic[restaurant] = dic[restaurant] + 1
+    print(dic[restaurant])
+    print(dic)
+
+dic2 = sorted(dic.items(), key=lambda x:x[1], reverse=True)
+print('#########################')
+print(dic2)
+print(len(dic2))
+
+for d in dic2:
+    print(d)
+    print(d[0])
+    while True:
+        recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
+        cprint('=' * 40, 'green')
+        answer = input(recommend.format(d[0])).upper()
+        if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
+            break
 
 
 
