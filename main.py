@@ -27,7 +27,6 @@ def write_csv(data, restaurant):
                 data[i - 1]['COUNT'] = int(data[i - 1]['COUNT']) + 1
                 for d in data:
                     writer.writerow(d)
-                print(data[i - 1]['COUNT'])
 
         if restaurant not in dic.keys():
              for d in data:
@@ -46,7 +45,6 @@ while True:
 
 if data != []:
     dic2 = sorted(dic.items(), key=lambda x:x[1], reverse=True)
-    print(dic2)
     for d in dic2:
         while True:
             recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
