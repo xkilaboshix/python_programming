@@ -19,23 +19,37 @@ def write_csv(data, restaurant):
         fieldnames = ['NAME', 'COUNT']
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow({'NAME': restaurant, 'COUNT': 1})
+
         for d in data:
             writer.writerow(d)
             print(d)
 
+        writer.writerow({'NAME': restaurant, 'COUNT': 1})
 
 
 while True:
     cprint('=' * 40, 'green')
-    name = input(colored('Hello, I am Roboko. What is your name?\n' + '=' * 40 + '\n', 'green'))
+    name = input(colored('Hello, I am Roboko. What is your name?\n' + '=' * 40 + '\n', 'green')).capitalize()
     if name:
         break
     cprint('Please enter your name!', 'red')
 
+
+data = read_csv()
+print(data)
+
+if data != []:
+    while True:
+        recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
+        cprint('=' * 40, 'green')
+        answer = input(recommend).upper()
+        if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
+            break
+        # print(recommend.format())
+
 while True:
     cprint('=' * 40, 'green')
-    restaurant = input(colored(name + ', which restaurants do you like?\n' + '=' * 40 + '\n', 'green'))
+    restaurant = input(colored(name + ', which restaurants do you like?\n' + '=' * 40 + '\n', 'green')).title()
     cprint('=' * 40, 'green')
     fin = colored('Roboko: Thank you so much, {}!\nHave a good day!\n' + '=' * 40 + '\n', 'green')
     print(fin.format(name))
