@@ -8,17 +8,21 @@ def read_csv():
         data = []
         for row in reader:
            data.append(row)
-        print(data)
-        print('#########################')
-        print(data[0])
-        print('#########################')
-        print(data[0]['NAME'])
-        print('#########################')
-        for d in data:
-            print(d)
+        # print(data)
+        # print('#########################')
+        # print(data[0])
+        # print('#########################')
+        # print(data[0]['NAME'])
+        # print('#########################')
+        # for d in data:
+        #     print(d)
         return data
 
 data = read_csv()
+dic = {}
+for d in data:
+    dic.update({d['NAME']: int(d['COUNT'])})
+
 
 def write_csv(data, restaurant):
     with open('ranking.csv', 'w') as csv_file:
@@ -26,12 +30,30 @@ def write_csv(data, restaurant):
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
-        for d in data:
-            writer.writerow(d)
-            print(d)
+        # for d in data:
+        #      writer.writerow(d)
+        # count = 1
+        # writer.writerow({'NAME': restaurant, 'COUNT': count})
 
-        count = 1
-        writer.writerow({'NAME': restaurant, 'COUNT': count})
+
+        for i in range(len(data)):
+            if restaurant == data[i - 1]['NAME']:
+                data[i - 1]['COUNT'] = int(data[i - 1]['COUNT']) + 1
+                for d in data:
+                    writer.writerow(d)
+                print(data[i - 1]['COUNT'])
+
+        if restaurant not in dic.keys():
+             for d in data:
+                 writer.writerow(d)
+             count = 1
+             writer.writerow({'NAME': restaurant, 'COUNT': count})
+
+# def update_count(data, restaurant):
+#     for i in range(len(data)):
+#         if restaurant == data[i - 1]['NAME']:
+#             data[i - 1]['COUNT'] = int(data[i - 1]['COUNT']) + 1
+
 
         # if restaurant not in d.values():
         #     print('oooooooooooooooooooooooooo')
@@ -40,15 +62,11 @@ def write_csv(data, restaurant):
         #     count = 1
         #     writer.writerow({'NAME': restaurant, 'COUNT': count})
         # else:
-        print('#############################')
+        # print('#############################')
         # print(dic[restaurant])
         # count = dic[d[restaurant]]
         # count += 1
         # writer.writerow({'NAME': restaurant, 'COUNT': count})
-
-dic = {}
-for d in data:
-    dic.update({d['NAME']: d['COUNT']})
 
 
 while True:
@@ -61,12 +79,15 @@ while True:
 
 
 if data != []:
-    while True:
-        recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
-        cprint('=' * 40, 'green')
-        answer = input(recommend.format(data[0]['NAME'])).upper()
-        if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
-            break
+    dic2 = sorted(dic.items(), key=lambda x:x[1], reverse=True)
+    print(dic2)
+    for d in dic2:
+        while True:
+            recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
+            cprint('=' * 40, 'green')
+            answer = input(recommend.format(d[0])).upper()
+            if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
+                break
 
 
 while True:
@@ -74,13 +95,13 @@ while True:
     restaurant = input(colored(name + ', which restaurants do you like?\n' + '=' * 40 + '\n', 'green')).title()
     cprint('=' * 40, 'green')
 
-    print('#############################')
+    # print('#############################')
 
 
 
     if restaurant in dic.keys():
-        dic[restaurant] = int(dic[restaurant]) + 1
-        print(dic[restaurant])
+        dic[restaurant] = dic[restaurant] + 1
+        # print(dic[restaurant])
 
     fin = colored('Roboko: Thank you so much, {}!\nHave a good day!\n' + '=' * 40 + '\n', 'green')
     print(fin.format(name))
@@ -94,25 +115,25 @@ while True:
 
 # print(dic)
 
-if restaurant in dic.keys():
-    dic[restaurant] = dic[restaurant] + 1
-    print(dic[restaurant])
-    print(dic)
+# if restaurant in dic.keys():
+# #     dic[restaurant] = dic[restaurant] + 1
+# #     print(dic[restaurant])
+# #     print(dic)
 
-dic2 = sorted(dic.items(), key=lambda x:x[1], reverse=True)
-print('#########################')
-print(dic2)
-print(len(dic2))
-
-for d in dic2:
-    print(d)
-    print(d[0])
-    while True:
-        recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
-        cprint('=' * 40, 'green')
-        answer = input(recommend.format(d[0])).upper()
-        if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
-            break
+# dic2 = sorted(dic.items(), key=lambda x:x[1], reverse=True)
+# print('#########################')
+# print(dic2)
+# print(len(dic2))
+#
+# for d in dic2:
+#     print(d)
+#     print(d[0])
+#     while True:
+#         recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
+#         cprint('=' * 40, 'green')
+#         answer = input(recommend.format(d[0])).upper()
+#         if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
+#             break
 
 
 
