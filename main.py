@@ -23,8 +23,8 @@ def write_csv(data, restaurant):
         writer.writeheader()
 
         for i in range(len(data)):
-            if restaurant == data[i - 1]['NAME']:
-                data[i - 1]['COUNT'] = int(data[i - 1]['COUNT']) + 1
+            if restaurant == data[i]['NAME']:
+                data[i]['COUNT'] = int(data[i]['COUNT']) + 1
                 for d in data:
                     writer.writerow(d)
 
