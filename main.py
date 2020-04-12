@@ -45,13 +45,23 @@ while True:
 
 if data != []:
     dic2 = sorted(dic.items(), key=lambda x:x[1], reverse=True)
-    for d in dic2:
+
         while True:
             recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
             cprint('=' * 40, 'green')
+            will_recommend_restaurants = [new_recommend_restaurant]
             answer = input(recommend.format(d[0])).upper()
-            if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
+            if answer == 'YES' or answer == 'Y':
                 break
+            if answer == 'NO' or answer == 'N':
+            for name in dic2:
+                if name in data:
+                    continue
+                new_recommend_restaurant = name
+                if not new_recommend_restaurant:
+                    break
+                will_recommend_restaurants.append(new_recommend_restaurant)
+
 
 
 while True:
