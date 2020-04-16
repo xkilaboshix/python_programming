@@ -1,14 +1,40 @@
-import subprocess
+"""
+[DEFAULT]
+debug = False
+
+[web_server]
+host = 127.0.0.1
+port = 80
+
+[db_server]
+host = 127.0.0.1
+port = 3306
+"""
+
+import configparser
 
 
-# subprocess.run(['ls', '-al'])
-# r = subprocess.run('lsaaaa', shell=True, check=True)
-# print(r.returncode)
-# print('###')
+# config = configparser.ConfigParser()
+# config['DEFAULT'] = {
+#     'debug': True
+# }
+# config['web_server'] = {
+#     'host': '127.0.0.1',
+#     'port': 80
+# }
+# config['db_server'] = {
+#     'host': '127.0.0.1',
+#     'port': 3306
+# }
+# with open('config.ini', 'w') as config_file:
+#     config.write(config_file)
 
-p1 = subprocess.Popen(['ls', '-al'], stdout=subprocess.PIPE)
-p2 = subprocess.Popen(
-    ['grep', 'test'], stdin=p1.stdout, stdout=subprocess.PIPE)
-p1.stdout.close()
-output = p2.communicate()[0]
-print(output)
+config = configparser.ConfigParser()
+config.read('config.ini')
+print(config['web_server'])
+print(config['web_server']['host'])
+print(config['web_server']['port'])
+
+print(config['DEFAULT']['debug'])
+
+
