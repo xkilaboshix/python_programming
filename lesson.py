@@ -1,26 +1,37 @@
-"""
-CRITICAL
-ERROR
-WARNING
-INFO
-DEBUG
-"""
-import logging
-import logtest
+import logging.config
 
 
-logging.basicConfig(level=logging.INFO)
+# logging.config.fileConfig('logging.ini')
+logging.config.dictConfig({
+    'version': 1,
+    'formatters': {
+        'sampleFormatter': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}
+    },
+    'handlers': {
+        'sampleHandlers': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'sampleFormatter',
+            'level': logging.DEBUG
+        }
+    },
+    'root': {
+        'handlers': ['sampleHandlers'],
+        'level': logging.WARNING,
+    },
+    'loggers': {
+        'simpleExample': {
+            'handlers': ['sampleHandlers'],
+            'level': logging.DEBUG,
+            'propagate': 0
+        }
+    }
+})
 
+logger = logging.getLogger('simpleExample')
 
-class NoPassFilter(logging.Filter):
-    def filter(self, record):
-        log_message = record.getMessage()
-        return 'password' not in log_message
-
-
-logger = logging.getLogger(__name__)
-logger.addFilter(NoPassFilter())
-logger.info('from main')
-logger.info('from main xxxx = "test"')
-
-
+logger.debug('debug message')
+logger.info('info message')
+logger.warning('warn message')
+logger.error('error message')
+logger.critical('critical message')
