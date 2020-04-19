@@ -20,7 +20,7 @@ class NoPassFilter(logging.Filter):
 
 logger = logging.getLogger(__name__)
 logger.addFilter(NoPassFilter())
-logger.info('from main')
-logger.info('from main password = "test"')
+# logger.inpasswordfo('from main')
+logger.info('from main xxxx = "test"')
 
 
