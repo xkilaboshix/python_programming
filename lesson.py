@@ -1,26 +1,27 @@
-import mysql.connector
+import sqlalchemy
+import sqlalchemy.ext.declarative
+import sqlalchemy.orm
 
+engine = sqlalchemy.create_engine('sqlite:///:memory:')
 
-# conn = mysql.connector.connect(host='', user='', password='')
-#
-# cursor = conn.cursor()
-#
-# cursor.execute('CREATE DATABASE test_mysql_database')
+Base = sqlalchemy.ext.declarative.declarative_base()
 
-conn = mysql.connector.connect(host='', user='', password='', database='test_mysql_database')
-cursor = conn.cursor()
-# cursor.execute('CREATE TABLE persons('
-#                'id int NOT NULL AUTO_INCREMENT,'
-#                'name varchar(14) NOT NULL,'
-#                'PRIMARY KEY(id))')
+class Person(Base):
+    __tablename__ = 'persons'
+    id = sqlalchemy.Column(
+        sqlalchemy.Integer, primary_key=True, autoincrement=True
+    )
+    name = sqlalchemy.Column(sqlalchemy.String(14))
 
-cursor.execute('INSERT INTO persons(name) values("Mike")')
-conn.commit()
+Base.metadata.create_all(engine)
 
-cursor.execute('SELECT * FROM persons')
-for row in cursor:
-    print(row)
+Session = sqlalchemy.orm.sessionmaker(bind=engine)
+session = Session()
 
-conn.commit()
-cursor.close()
-conn.close()
+person = Person(name='Mike')
+session.add(person)
+session.commit()
+
+persons = session.query(Person).all()
+for person in persons:
+    print(person.id, person.name)
