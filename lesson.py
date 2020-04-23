@@ -2,7 +2,7 @@ import sqlalchemy
 import sqlalchemy.ext.declarative
 import sqlalchemy.orm
 
-engine = sqlalchemy.create_engine('sqlite:///:memory:')
+engine = sqlalchemy.create_engine('sqlite:///test_sqlite2', echo=True)
 
 Base = sqlalchemy.ext.declarative.declarative_base()
 
@@ -29,6 +29,10 @@ session.commit()
 p4 = session.query(Person).filter_by(name='Mike').first()
 p4.name = 'Michel'
 session.add(p4)
+session.commit()
+
+p5 = session.query(Person).filter_by(name='Nancy').first()
+session.delete(p5)
 session.commit()
 
 persons = session.query(Person).all()
