@@ -1,31 +1,26 @@
-import sqlite3
-import time
-import memcache
+import pickle
 
-db = memcache.Client(['127.0.0.1:11211'])
 
-# db.set('web_page', 'value1', time=3)
-# time.sleep(1)
-# print(db.get('web_page'))
+class T(object):
 
-# db.set('counter', 0)
-# db.incr('counter', 1)
-# db.incr('counter', 1)
-# db.incr('counter', 1)
-# db.incr('counter', 1)
-# print(db.get('counter'))
+    def __init__(self, name):
+        self.name = name
 
-conn = sqlite3.connect('test_sqlite2.db')
-curs = conn.cursor()
-# curs.execute(
-#     'CREATE TABLE persons('
-#     'employ_id INTEGER PRIMARY KEY AUTOINCREMENT, name STRING)')
-# curs.execute('INSERT INTO persons(name) values("Mike")')
-# conn.commit()
-# conn.close()
+data = {
+    'a': [1, 2, 3],
+    'b': ('test', 'test'),
+    'c': {'key': 'value'},
+    'd': T('test')
+}
 
-def get_employ_id(name):
-    employ_id = db.get(name)
-    if employ_id:
-        return employ_id
-    curs.execute()
+with open('data.pickle', 'wb') as f:
+    pickle.dump(data, f)
+
+
+with open('data.pickle', 'rb') as f:
+    data_loaded = pickle.load(f)
+    print(data_loaded['d'].name)
+    print(type(data_loaded['a']))
+    print(type(data_loaded['b']))
+    print(type(data_loaded['c']))
+    print(type(data_loaded['d']))
