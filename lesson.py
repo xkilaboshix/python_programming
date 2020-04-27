@@ -1,26 +1,28 @@
-import pickle
+import datetime
+
+from pymongo import MongoClient
 
 
-class T(object):
+client = MongoClient('mongodb://localhost:27017/')
+db = client['test_database']
 
-    def __init__(self, name):
-        self.name = name
-
-data = {
-    'a': [1, 2, 3],
-    'b': ('test', 'test'),
-    'c': {'key': 'value'},
-    'd': T('test')
+stack1 = {
+    'name': 'customer1',
+    'pip': ['python', 'java', 'go'],
+    'info': {'os': 'mac'},
+    'data': datetime.datetime.utcnow()
 }
 
-with open('data.pickle', 'wb') as f:
-    pickle.dump(data, f)
+stack2 = {
+    'name': 'customer2',
+    'pip': ['python', 'java'],
+    'info': {'os': 'windows'},
+    'data': datetime.datetime.utcnow()
+}
 
-
-with open('data.pickle', 'rb') as f:
-    data_loaded = pickle.load(f)
-    print(data_loaded['d'].name)
-    print(type(data_loaded['a']))
-    print(type(data_loaded['b']))
-    print(type(data_loaded['c']))
-    print(type(data_loaded['d']))
+db_stacks = db.stacks
+# stack_id = db_stacks.insert_one(stack1).inserted_id
+# print(stack_id, type(stack_id))
+# print("############")
+str_stack_id = '5ea68b2ee8f355b69d1c800f'
+print(db_stacks.find_one({'_id': str_stack_id}))
