@@ -31,8 +31,14 @@ db_stacks = db.stacks
 # stack_id = db_stacks.insert_one(stack2).inserted_id
 # print(stack_id, type(stack_id))
 #
-# for stack in db_stacks.find():
-#     print(stack)
-now = datetime.datetime.utcnow()
-for stack in db_stacks.find({'data': {'$lt': now}}):
+for stack in db_stacks.find():
     print(stack)
+# now = datetime.datetime.utcnow()
+# for stack in db_stacks.find({'data': {'$lt': now}}):
+#     print(stack)
+# db_stacks.find_one_and_update(
+#     {'name': 'customer1'}, {'$set': {'name': 'YYY'}}
+# )
+# print(db_stacks.find_one({'name': 'YYY'}))
+# db_stacks.delete_one({'name': 'customer1'})
+# print(db_stacks.find_one({'name': 'customer1'}))
