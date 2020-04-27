@@ -27,4 +27,4 @@ db_stacks = db.stacks
 # from bson.objectid import ObjectId
 # str_stack_id = '5ea68b2ee8f355b69d1c800f'
 # print(db_stacks.find_one({'_id': ObjectId(str_stack_id)}))
-print(db_stacks.find_one({'name': 'customer1'}))
+print(db_stacks.find_one({'pip': ['python', 'java', 'go']}))
