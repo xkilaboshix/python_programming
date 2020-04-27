@@ -24,5 +24,6 @@ db_stacks = db.stacks
 # stack_id = db_stacks.insert_one(stack1).inserted_id
 # print(stack_id, type(stack_id))
 # print("############")
+from bson.objectid import ObjectId
 str_stack_id = '5ea68b2ee8f355b69d1c800f'
-print(db_stacks.find_one({'_id': str_stack_id}))
+print(db_stacks.find_one({'_id': ObjectId(str_stack_id)}))
