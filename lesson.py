@@ -21,31 +21,30 @@
         ]
 }
 """
-import xml.etree.ElementTree as ET
+import json
 
-root = ET.Element('root')
-tree = ET.ElementTree(element=root)
 
-employee = ET.SubElement(root, 'employee')
+j = {
+    "employee":
+        [
+            {"id": 111, "name": "Mike"},
+            {"id": 222, "name": "Nancy"}
+        ]
+}
 
-employ = ET.SubElement(employee, 'employ')
-employ_id = ET.SubElement(employ, 'id')
-employ_id.text = '111'
-employ_id = ET.SubElement(employ, 'name')
-employ_id.text = 'Mike'
+print(j)
+print("###############")
+print(json.dumps(j))
+a = json.dumps(j)
 
-employ = ET.SubElement(employee, 'employ')
-employ_id = ET.SubElement(employ, 'id')
-employ_id.text = '222'
-employ_id = ET.SubElement(employ, 'name')
-employ_id.text = 'Nancy'
+print("@@@@@@@@@@@@@@@")
+print(json.loads(a))
+print("@@@@@@@@@@@@@@@")
 
-tree.write('test.xml', encoding='utf-8', xml_declaration=True)
+with open('test.json', 'w') as f:
+    json.dump(j, f)
 
-tree = ET.ElementTree(file='test.xml')
-root = tree.getroot()
+print("###############")
 
-for employee in root:
-    for employ in employee:
-        for person in employ:
-            print(person.tag, person.text)
+with open('test.json', 'r') as f:
+    print(json.load(f))
