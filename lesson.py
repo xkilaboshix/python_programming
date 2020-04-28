@@ -1,27 +1,51 @@
-from neo4j import GraphDatabase
+"""
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+    <employee>
+        <employ>
+            <id>111</id>
+            <name>Mike</name>
+        </employ>
+        <employ>
+            <id>111</id>
+            <name>Mike</name>
+        </employ>
+    </employee>
+</root>
 
-driver = GraphDatabase.driver(
-    'bolt://127.0.0.1:7687', auth=('', ''), encrypted=False)
+{
+    "employee":
+        [
+            {"id": 111, "name": "Mike"},
+            {"id": 222, "name": "Nancy"}
+        ]
+}
+"""
+import xml.etree.ElementTree as ET
 
+root = ET.Element('root')
+tree = ET.ElementTree(element=root)
 
-def clear_db(tx):
-    tx.run('MATCH (n) DETACH DELETE n')
+employee = ET.SubElement(root, 'employee')
 
-def add_friend(tx, name, friend_name=None):
-    if not friend_name:
-        return tx.run('CREATE (p:Person {name: $name}) RETURN p', name=name)
-    return tx.run('MATCH (p:Person {name: $name}) '
-                  'CREATE (p)-[:FRIEND]->(:Person {name: $friend_name})',
-                  name=name, friend_name=friend_name)
+employ = ET.SubElement(employee, 'employ')
+employ_id = ET.SubElement(employ, 'id')
+employ_id.text = '111'
+employ_id = ET.SubElement(employ, 'name')
+employ_id.text = 'Mike'
 
-def print_friend(tx, name):
-    for record in tx.run('MATCH (p {name: $name})-[:FRIEND]->(yourFriends) '
-                         'RETURN p,yourFriends', name=name):
-        print(record)
+employ = ET.SubElement(employee, 'employ')
+employ_id = ET.SubElement(employ, 'id')
+employ_id.text = '222'
+employ_id = ET.SubElement(employ, 'name')
+employ_id.text = 'Nancy'
 
-with driver.session() as session:
-    session.write_transaction(clear_db)
-    session.write_transaction(add_friend, 'Jun')
-    for f in ['Mike', 'Nancy']:
-        session.write_transaction(add_friend, 'Jun', f)
-    session.read_transaction(print_friend, 'Jun')
+tree.write('test.xml', encoding='utf-8', xml_declaration=True)
+
+tree = ET.ElementTree(file='test.xml')
+root = tree.getroot()
+
+for employee in root:
+    for employ in employee:
+        for person in employ:
+            print(person.tag, person.text)
