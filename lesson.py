@@ -1,50 +1,18 @@
 """
-<?xml version='1.0' encoding='utf-8'?>
-<root>
-    <employee>
-        <employ>
-            <id>111</id>
-            <name>Mike</name>
-        </employ>
-        <employ>
-            <id>111</id>
-            <name>Mike</name>
-        </employ>
-    </employee>
-</root>
+REST
 
-{
-    "employee":
-        [
-            {"id": 111, "name": "Mike"},
-            {"id": 222, "name": "Nancy"}
-        ]
-}
+HTTPメソッド　クライアントが行いたい処理をサーバーに伝える
+
+GET    データの参照
+POST   データの新規登録
+PUT    データの更新
+DELETE データの削除
 """
+
+import urllib.request
 import json
 
 
-j = {
-    "employee":
-        [
-            {"id": 111, "name": "Mike"},
-            {"id": 222, "name": "Nancy"}
-        ]
-}
-
-print(j)
-print("###############")
-print(json.dumps(j))
-a = json.dumps(j)
-
-print("@@@@@@@@@@@@@@@")
-print(json.loads(a))
-print("@@@@@@@@@@@@@@@")
-
-with open('test.json', 'w') as f:
-    json.dump(j, f)
-
-print("###############")
-
-with open('test.json', 'r') as f:
-    print(json.load(f))
+url = 'http://httpbin.org/get'
+with urllib.request.urlopen(url) as f:
+    print(f.read().decode('utf-8'))
