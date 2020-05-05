@@ -1,34 +1,16 @@
-"""
-REST
-
-HTTPメソッド　クライアントが行いたい処理をサーバーに伝える
-
-GET    データの参照
-POST   データの新規登録
-PUT    データの更新
-DELETE データの削除
-"""
-
-import urllib.request
-import json
+import requests
 
 
 payload = {'key1': 'value1', 'key2': 'value2'}
 
-# url = 'http://httpbin.org/get' + '?' + urllib.parse.urlencode(payload)
-# with urllib.request.urlopen(url) as f:
-#     r = json.loads(f.read().decode('utf-8'))
+# r = requests.get('http://httpbin.org/get', params=payload)
+# r = requests.post('http://httpbin.org/post', data=payload)
+# r = requests.put('http://httpbin.org/put', data=payload)
+r = requests.delete('http://httpbin.org/delete', data=payload)
 
-payload = json.dumps(payload).encode('utf-8')
-# req = urllib.request.Request('http://httpbin.org/post', data=payload, method='POST')
-# with urllib.request.urlopen(req) as f:
-#     print(json.loads(f.read().decode('utf-8')))
 
-req = urllib.request.Request('http://httpbin.org/put', data=payload, method='PUT')
-with urllib.request.urlopen(req) as f:
-    print(json.loads(f.read().decode('utf-8')))
+r = requests.get('http://httpbin.org/get', params=payload, timeout=1)
 
-req = urllib.request.Request('http://httpbin.org/delete', data=payload, method='DELETE')
-with urllib.request.urlopen(req) as f:
-    print(json.loads(f.read().decode('utf-8')))
-
+print(r.status_code)
+print(r.text)
+print(r.json())
