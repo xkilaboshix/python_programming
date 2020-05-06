@@ -13,8 +13,9 @@ def hello_world():
     return 'top'
 
 @app.route('/hello')
-def hello_world2():
-    return 'hello world!'
+@app.route('/hello/<username>')
+def hello_world2(username=None):
+    return 'hello world! {}'.format(username)
 
 def main():
     app.debug = True
