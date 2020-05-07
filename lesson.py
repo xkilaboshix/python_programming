@@ -1,16 +1,12 @@
-from bs4 import BeautifulSoup
-import requests
+import matplotlib.pyplot as plt
+import networkx as nx
 
 
-html = requests.get('https://www.python.org')
+G = nx.Graph()
+G.add_node(1)
 
-soup = BeautifulSoup(html.text, 'lxml')
+G.add_edge(1, 2)
+G.add_edge(2, 3)
 
-titles = soup.find_all('title')
-print(titles[0].text)
-
-
-intro = soup.find_all('div', {'class': 'introduction'})
-print(intro[0].text)
-
-p = soup.find_all('div', {'class': 'small-widget get-started-widget'})
+nx.draw(G)
+plt.show()
