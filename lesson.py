@@ -14,4 +14,3 @@ intro = soup.find_all('div', {'class': 'introduction'})
 print(intro[0].text)
 
 p = soup.find_all('div', {'class': 'small-widget get-started-widget'})
-print(p[0].text)
