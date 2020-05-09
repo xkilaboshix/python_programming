@@ -11,6 +11,7 @@ class CalTest(unittest.TestCase):
         print('clean up')
         del self.cal
 
+    @unittest.skip('skip!')
     def test_add_num_and_double(self):
         self.assertEqual(self.cal.add_num_and_double(1, 1), 4)
 
