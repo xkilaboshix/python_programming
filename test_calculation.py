@@ -1,6 +1,8 @@
 import calculation
 import pytest
 
+
+is_release = True
 class TestCal(object):
 
     @classmethod
@@ -24,14 +26,12 @@ class TestCal(object):
     def test_add_num_and_double(self):
         assert self.cal.add_num_and_double(1, 1) == 4
 
+    # @pytest.mark.skip(reason='skip')
+    @pytest.mark.skipif(is_release==True, reason='skip!')
     def test_add_num_and_double_raise(self):
         with pytest.raises(ValueError):
             self.cal.add_num_and_double('1', '1')
 
-# release_name = 'lesson2'
-#
-
-#
 #     @unittest.skipIf(release_name=='lesson2', 'skip!!')
 #     def test_add_num_and_double(self):
 #         self.assertEqual(self.cal.add_num_and_double(1, 1), 4)
