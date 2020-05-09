@@ -5,5 +5,3 @@ class Cal(object):
         result = x + y
         result *= 2
         return result
-
-
