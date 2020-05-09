@@ -1,20 +1,24 @@
+import os
 import pytest
 import calculation
 
 
-is_release = True
 class TestCal(object):
 
     @classmethod
     def setup_class(cls):
         cls.cal = calculation.Cal()
+        cls.test_file_name = 'test.txt'
 
-    def test_add_num_and_double(self, request):
-        os_name = request.config.getoption('--os-name')
-        print(os_name)
-        if os_name == 'mac':
-            print('ls')
-        elif os_name == 'windows':
-            print('dir')
+    def test_add_num_and_double(self, tmpdir):
+        print(tmpdir)
         assert self.cal.add_num_and_double(1, 1) == 4
+
+    def test_save(self, tmpdir):
+        self.cal.save(tmpdir, self.test_file_name)
+        test_file_path = os.path.join(
+            tmpdir, self.test_file_name
+        )
+        assert os.path.exists(test_file_path) is True
+
 
