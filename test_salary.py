@@ -58,3 +58,14 @@ class TestSalary(unittest.TestCase):
         self.assertEqual(salary_price, 101)
         self.mock_bonus.assert_called()
 
+    def test_calculation_salary_patch_side_effect(self):
+        # def f(year):
+        #     return 1
+
+        self.mock_bonus.side_effect = lambda year: 1
+
+        s = salary.Salary(year=2017)
+        salary_price = s.calculation_salary()
+
+        self.assertEqual(salary_price, 101)
+        self.mock_bonus.assert_called()
