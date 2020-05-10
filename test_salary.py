@@ -62,10 +62,21 @@ class TestSalary(unittest.TestCase):
         # def f(year):
         #     return 1
 
-        self.mock_bonus.side_effect = ConnectionRefusedError
+        self.mock_bonus.side_effect = [
+            1,
+            2,
+            3,
+            ValueError('Bankrupt!!!')]
 
         s = salary.Salary(year=2017)
         salary_price = s.calculation_salary()
-
-        self.assertEqual(salary_price, 100)
-        self.mock_bonus.assert_called()
+        self.assertEqual(salary_price, 101)
+        s = salary.Salary(year=2018)
+        salary_price = s.calculation_salary()
+        self.assertEqual(salary_price, 102)
+        s = salary.Salary(year=2019)
+        salary_price = s.calculation_salary()
+        self.assertEqual(salary_price, 103)
+        s = salary.Salary(year=200)
+        with self.assertRaises(ValueError):
+            s.calculation_salary()
