@@ -22,8 +22,12 @@ class TestSalary(unittest.TestCase):
         s.bonus_api.bonus_price.assert_not_called()
 
 
-    @mock.patch('salary.ThirdPartyBonusRestApi.bonus_price', return_value=1)
+    @mock.patch('salary.ThirdPartyBonusRestApi.bonus_price')
     def test_calculation_salary_patch(self, mock_bonus):
+        mock_bonus.return_value = 1
+
         s = salary.Salary(year=2017)
-        self.assertEqual(s.calculation_salary(), 101)
+        salary_price = s.calculation_salary()
+
+        self.assertEqual(salary_price, 101)
         mock_bonus.assert_called()
