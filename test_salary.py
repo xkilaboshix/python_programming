@@ -1,5 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
+from unittest import mock
+
 import salary
 
 
@@ -18,3 +20,10 @@ class TestSalary(unittest.TestCase):
         s.bonus_api.bonus_price = MagicMock(return_value=0)
         self.assertEqual(s.calculation_salary(), 100)
         s.bonus_api.bonus_price.assert_not_called()
+
+
+    @mock.patch('salary.ThirdPartyBonusRestApi.bonus_price', return_value=1)
+    def test_calculation_salary_patch(self, mock_bonus):
+        s = salary.Salary(year=2017)
+        self.assertEqual(s.calculation_salary(), 101)
+        mock_bonus.assert_called()
