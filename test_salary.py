@@ -42,15 +42,19 @@ class TestSalary(unittest.TestCase):
             self.assertEqual(salary_price, 101)
             mock_bonus.assert_called()
 
+    def setUp(self):
+        self.patcher = mock.patch('salary.ThirdPartyBonusRestApi.bonus_price')
+        self.mock_bonus = self.patcher.start()
+
+    def tearDown(self):
+        self.patcher.stop()
+
     def test_calculation_salary_patch_patcher(self):
-        patcher = mock.patch('salary.ThirdPartyBonusRestApi.bonus_price')
-        mock_bonus = patcher.start()
-        mock_bonus.return_value = 1
+        self.mock_bonus.return_value = 1
 
         s = salary.Salary(year=2017)
         salary_price = s.calculation_salary()
 
         self.assertEqual(salary_price, 101)
-        mock_bonus.assert_called()
-        patcher.stop()
+        self.mock_bonus.assert_called()
 
