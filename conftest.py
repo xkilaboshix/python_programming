@@ -1,9 +1,10 @@
+import os
 import pytest
 
 
 @pytest.fixture
-def csv_file():
-    with open('test.csv', 'w') as c:
+def csv_file(tmpdir):
+    with open(os.path.join(tmpdir, 'test.csv'), 'w+') as c:
         print('before test')
         yield c
         print('after test')
