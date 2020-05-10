@@ -18,4 +18,24 @@ class PythonOrgTest(unittest.TestCase):
 
     def test_python_org(self):
         self.driver.get('http://www.python.org')
-        time.sleep(5)
+        self.assertIn('Python', self.driver.title)
+
+        self.driver.find_element_by_link_text('Downloads').click()
+
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, 'widget-title')))
+        self.assertEqual('Active Python Releases', element.text)
+
+        self.driver.find_element_by_link_text('Documentation').click()
+
+        element = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.CLASS_NAME, 'call-to-action')))
+        self.assertIn('Browse the docs', element.text)
+
+        element = self.driver.find_element_by_name('q')
+        element.clear()
+        element.send_keys('pycon')
+        element.send_keys(Keys.RETURN)
+        assert 'No results found' not in self.driver.page_source
