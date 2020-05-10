@@ -62,10 +62,10 @@ class TestSalary(unittest.TestCase):
         # def f(year):
         #     return 1
 
-        self.mock_bonus.side_effect = lambda year: 1
+        self.mock_bonus.side_effect = ConnectionRefusedError
 
         s = salary.Salary(year=2017)
         salary_price = s.calculation_salary()
 
-        self.assertEqual(salary_price, 101)
+        self.assertEqual(salary_price, 100)
         self.mock_bonus.assert_called()
