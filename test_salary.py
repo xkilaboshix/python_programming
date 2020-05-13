@@ -93,5 +93,6 @@ class TestSalary(unittest.TestCase):
         s = salary.Salary(year=2017)
         salary_price = s.calculation_salary()
 
+
         self.assertEqual(salary_price, 111)
         mock_rest.bonus_price.assert_called()
