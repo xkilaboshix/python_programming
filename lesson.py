@@ -1,36 +1,27 @@
 import logging
-import threading
+import multiprocessing
 import time
 
 logging.basicConfig(
-    level=logging.DEBUG, format='%(threadName)s: %(message)s')
+    level=logging.DEBUG, format='%(processName)s: %(message)s')
 
-def worker1(condition):
-    with condition:
-        condition.wait()
-        logging.debug('start')
-        time.sleep(3)
-        logging.debug('end')
+def worker1(i):
+    logging.debug('start')
+    logging.debug(i)
+    time.sleep(5)
+    logging.debug('end')
 
-def worker2(condition):
-    with condition:
-        condition.wait()
-        logging.debug('start')
-        time.sleep(3)
-        logging.debug('end')
-
-def worker3(condition):
-    with condition:
-        logging.debug('start')
-        time.sleep(5)
-        logging.debug('end')
-        condition.notifyAll()
+def worker2(i):
+    logging.debug('start')
+    logging.debug(i)
+    logging.debug('end')
 
 if __name__ == '__main__':
-    condition = threading.Condition()
-    t1 = threading.Thread(target=worker1, args=(condition,))
-    t2 = threading.Thread(target=worker2, args=(condition,))
-    t3 = threading.Thread(target=worker3, args=(condition,))
+    i = 10
+    t1 = multiprocessing.Process(target=worker1, args=(i,))
+    t1.daemon = True
+    t2 = multiprocessing.Process(name='renamed worker2', target=worker2, args=(i,))
     t1.start()
     t2.start()
-    t3.start()
+    t1.join()
+    t2.join()
