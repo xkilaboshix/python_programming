@@ -8,20 +8,25 @@ logging.basicConfig(
 
 def worker1(queue):
     logging.debug('start')
-    queue.put(100)
-    time.sleep(5)
-    queue.put(200)
-    logging.debug('end')
+    while True:
+        item = queue.get()
+        if item is None:
+            break
+        logging.debug(item)
+        queue.task_done()
 
-def worker2(queue):
-    logging.debug('start')
-    logging.debug(queue.get())
-    logging.debug(queue.get())
+    logging.debug('longggggggggggggggggggggggggggggg')
     logging.debug('end')
 
 if __name__ == '__main__':
     queue = queue.Queue()
+    for i in range(10):
+        queue.put(i)
     t1 = threading.Thread(target=worker1, args=(queue,))
-    t2 = threading.Thread(target=worker2, args=(queue,))
     t1.start()
-    t2.start()
+    logging.debug('tasks are not done')
+    queue.join()
+    logging.debug('task are done')
+    queue.put(None)
+
+    t1.join()
