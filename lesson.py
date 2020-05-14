@@ -7,12 +7,11 @@ logging.basicConfig(
 
 def worker1(d, lock):
     logging.debug('start')
-    lock.acquire()
-    i = d['x']
-    time.sleep(5)
-    d['x'] = i + 1
-    logging.debug(d)
-    lock.release()
+    with lock:
+        i = d['x']
+        time.sleep(5)
+        d['x'] = i + 1
+        logging.debug(d)
     logging.debug('end')
 
 def worker2(d, lock):
