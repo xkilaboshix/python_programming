@@ -20,13 +20,17 @@ def worker1(queue):
 
 if __name__ == '__main__':
     queue = queue.Queue()
-    for i in range(10):
+    for i in range(100000):
         queue.put(i)
-    t1 = threading.Thread(target=worker1, args=(queue,))
-    t1.start()
+    ts = []
+    for _ in range(3):
+        t = threading.Thread(target=worker1, args=(queue,))
+        t.start()
+        ts.append(t)
     logging.debug('tasks are not done')
     queue.join()
     logging.debug('task are done')
-    queue.put(None)
+    for _ in range(len(ts)):
+        queue.put(None)
 
-    t1.join()
+    [t.join() for t in ts]
