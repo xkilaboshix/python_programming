@@ -10,7 +10,8 @@ def worker1(d, lock):
     with lock:
         i = d['x']
         time.sleep(5)
-        d['x'] = i + 1
+        with lock:
+            d['x'] = i + 1
         logging.debug(d)
     logging.debug('end')
 
@@ -25,7 +26,7 @@ def worker2(d, lock):
 
 if __name__ == '__main__':
     d = {'x': 0}
-    lock = threading.Lock()
+    lock = threading.RLock()
     t1 = threading.Thread(target=worker1, args=(d, lock))
     t2 = threading.Thread(target=worker2, args=(d, lock))
     t1.start()
