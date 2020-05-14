@@ -16,7 +16,8 @@ if __name__ == '__main__':
     with multiprocessing.Pool(3) as p:
         r = p.imap(worker1, [100, 200])
         logging.debug('executed')
-        logging.debug([i for i in r])
+        for i in r:
+            logging.debug(i)
 
         # p1 = p.apply_async(worker1, (100, ))
         # p2 = p.apply_async(worker1, (100, ))
