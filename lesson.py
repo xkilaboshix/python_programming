@@ -5,29 +5,29 @@ import time
 logging.basicConfig(
     level=logging.DEBUG, format='%(threadName)s: %(message)s')
 
-def worker1(d, lock):
-    logging.debug('start')
-    with lock:
-        i = d['x']
+def worker1(semaphore):
+    with semaphore:
+        logging.debug('start')
         time.sleep(5)
-        with lock:
-            d['x'] = i + 1
-        logging.debug(d)
-    logging.debug('end')
+        logging.debug('end')
 
-def worker2(d, lock):
-    logging.debug('start')
-    lock.acquire()
-    i = d['x']
-    d['x'] = i + 1
-    logging.debug(d)
-    lock.release()
-    logging.debug('end')
+def worker2(semaphore):
+    with semaphore:
+        logging.debug('start')
+        time.sleep(5)
+        logging.debug('end')
+
+def worker3(semaphore):
+    with semaphore:
+        logging.debug('start')
+        time.sleep(5)
+        logging.debug('end')
 
 if __name__ == '__main__':
-    d = {'x': 0}
-    lock = threading.RLock()
-    t1 = threading.Thread(target=worker1, args=(d, lock))
-    t2 = threading.Thread(target=worker2, args=(d, lock))
+    semaphore = threading.Semaphore(2)
+    t1 = threading.Thread(target=worker1, args=(semaphore,))
+    t2 = threading.Thread(target=worker2, args=(semaphore,))
+    t3 = threading.Thread(target=worker3, args=(semaphore,))
     t1.start()
     t2.start()
+    t3.start()
