@@ -5,13 +5,19 @@ import time
 logging.basicConfig(
     level=logging.DEBUG, format='%(processName)s: %(message)s')
 
-def f(conn):
-    conn.send(['test'])
-    time.sleep(5)
-    conn.close()
+def f(num, arr):
+   logging.debug(num)
+   num.value += 1.0
+   logging.debug(arr)
+   for i in range(len(arr)):
+       arr[i] *= 2
 
 if __name__ == '__main__':
-    parent_conn, child_conn = multiprocessing.Pipe()
-    p = multiprocessing.Process(target=f, args=(parent_conn, ))
+    num = multiprocessing.Value('f', 0.0)
+    arr = multiprocessing.Array('i', [1, 2, 3, 4, 5])
+
+    p = multiprocessing.Process(target=f, args=(num, arr))
     p.start()
-    logging.debug(child_conn.recv())
+    p.join()
+    logging.debug(num.value)
+    logging.debug(arr[:])
