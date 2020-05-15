@@ -23,8 +23,11 @@ if __name__ == '__main__':
         n.y = 0
 
         p1 = multiprocessing.Process(target=worker1, args=(l, d, n))
+        p2 = multiprocessing.Process(target=worker1, args=(l, d, n))
         p1.start()
+        p2.start()
         p1.join()
+        p2.join()
 
         logging.debug(l)
         logging.debug(d)
