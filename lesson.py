@@ -5,22 +5,29 @@ import time
 logging.basicConfig(
     level=logging.DEBUG, format='%(processName)s: %(message)s')
 
-def f(num, arr):
-   logging.debug(num)
-   num.value += 1.0
-   logging.debug(arr)
-   for i in range(len(arr)):
-       arr[i] *= 2
+def worker1(l, d, n):
+    l.reverse()
+    d['x'] += 1
+    n.y += 1
 
 if __name__ == '__main__':
-    num = multiprocessing.Value('f', 0.0)
-    arr = multiprocessing.Array('i', [1, 2, 3, 4, 5])
+    with multiprocessing.Manager() as manager:
+        l = manager.list()
+        d = manager.dict()
+        n = manager.Namespace()
 
-    p1 = multiprocessing.Process(target=f, args=(num, arr))
-    p2 = multiprocessing.Process(target=f, args=(num, arr))
-    p1.start()
-    p2.start()
-    p1.join()
-    p2.join()
-    logging.debug(num.value)
-    logging.debug(arr[:])
+        l.append(1)
+        l.append(2)
+        l.append(3)
+        d['x'] = 0
+        n.y = 0
+
+        p1 = multiprocessing.Process(target=worker1, args=(l, d, n))
+        p1.start()
+        p1.join()
+
+        logging.debug(l)
+        logging.debug(d)
+        logging.debug(n)
+
+
