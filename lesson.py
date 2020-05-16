@@ -1,33 +1,10 @@
-import threading
-import multiprocessing
+import string
+import random
 
-import concurrent.futures
-import logging
-import time
+from Crypto.Cipher import AES
 
 
-logging.basicConfig(
-    level=logging.DEBUG, format='%(threadName)s: %(message)s')
-
-def worker(x, y):
-    logging.debug('start')
-    r = x * y
-    logging.debug(r)
-    logging.debug('end')
-    return r
-
-def main():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        # f1 = executor.submit(worker, 2, 5)
-        # f2 = executor.submit(worker, 2, 5)
-        # logging.debug(f1.result())
-        # logging.debug(f2.result())
-
-        args = [[2, 2], [5, 5]]
-        r = executor.map(worker, *args)
-        logging.debug(r)
-        logging.debug([i for i in r])
-if __name__ == '__main__':
-    main()
-
-
+print(AES.block_size)
+print(string.ascii_letters)
+key = ''.join(random.choice(string.ascii_letters) for _ in range(AES.block_size))
+print(key)
