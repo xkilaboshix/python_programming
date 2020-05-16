@@ -18,11 +18,15 @@ def worker(x, y):
 
 def main():
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        f1 = executor.submit(worker, 2, 5)
-        f2 = executor.submit(worker, 2, 5)
-        logging.debug(f1.result())
-        logging.debug(f2.result())
+        # f1 = executor.submit(worker, 2, 5)
+        # f2 = executor.submit(worker, 2, 5)
+        # logging.debug(f1.result())
+        # logging.debug(f2.result())
 
+        args = [[2, 2], [5, 5]]
+        r = executor.map(worker, *args)
+        logging.debug(r)
+        logging.debug([i for i in r])
 if __name__ == '__main__':
     main()
 
