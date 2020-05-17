@@ -1,23 +1,17 @@
-import string
-import random
+import hashlib
 
-from Crypto.Cipher import AES
+# print(hashlib.sha256(b'test').hexdigest())
+# print(hashlib.sha256(b'test').hexdigest())
 
+user_name = 'user1'
+user_pass = 'password'
+db = {}
 
-print(AES.block_size)
-print(string.ascii_letters)
-key = ''.join(random.choice(string.ascii_letters) for _ in range(AES.block_size))
-print(key)
+def get_digest(password):
+    password = bytes(password, 'utf-8')
+    digest = hashlib.sha256(password).hexdigest()
+    return digest
 
-iv = ''.join(random.choice(string.ascii_letters) for _ in range(AES.block_size))
+db[user_name] = get_digest(user_pass)
 
-plaintext = 'fdiafejiwaifdjafewafeaf'
-cipher = AES.new(key, AES.MODE_CBC, iv)
-padding_length = AES.block_size - len(plaintext) % AES.block_size
-plaintext += chr(padding_length) * padding_length
-cipher_text = cipher.encrypt(plaintext)
-print(cipher_text)
-
-cipher2 = AES.new(key, AES.MODE_CBC, iv)
-decrypted_text = cipher2.decrypt(cipher_text)
-print(decrypted_text[:-decrypted_text[-1]])
+print(db)
