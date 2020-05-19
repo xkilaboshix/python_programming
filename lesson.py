@@ -1,31 +1,36 @@
 import collections
 
+d = {}
+l = ['a', 'a', 'a', 'b', 'b', 'c']
+for word in l:
+    if word not in d:
+        d[word] = 0
+    d[word] += 1
+print(d)
 
-a = {'a': 'a', 'c': 'c', 'num': 0}
-b = {'b': 'b', 'c': 'cc'}
-c = {'b': 'bbb', 'c': 'ccc'}
 
-class DeepChainMap(collections.ChainMap):
-    def __setitem__(self, key, value):
-        for mapping in self.maps:
-            if type(mapping[key]) is int and mapping[key] < value:
-                mapping[key] = value
-            return
-        self.maps[0][key] = value
+d = {}
+l = ['a', 'a', 'a', 'b', 'b', 'c']
+for word in l:
+    d.setdefault(word, 0)
+    d[word] += 1
+print(d)
 
-m = DeepChainMap(a, b, c)
-m['num'] = -1
-print(m['num'])
 
-# print(a)
-# a.update(b)
-# print(a)
-# a.update(c)
-# print(a)
+d = collections.defaultdict(int)
+l = ['a', 'a', 'a', 'b', 'b', 'c']
+for word in l:
+   d[word] += 1
+print(d)
+d['d'] = 6
+print(d['b'])
+print(d)
 
-# m = collections.ChainMap(a, b, c)
-# print(m)
-# print(m.maps)
-# m.maps.reverse()
-# print(m.maps)
-# print(m['c'])
+
+d = collections.defaultdict(set)
+s = [('red', 1), ('blue', 2), ('red', 3), ('blue', 4),
+     ('red', 1), ('blue', 4)]
+for k, v in s:
+    d[k].add(v)
+print(d)
+print(d['red'])
