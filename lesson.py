@@ -1,19 +1,22 @@
 import functools
 
 
-def d(f):
-    @functools.wraps(f)
-    def wrapper():
-        """Wrapper docstring"""
-        print('くぁwせdrftgyふじこlp')
-        return f()
-    return wrapper
+def f(x, y):
+    return x + y
 
-@d
-def shimarin():
-    """shimarin docstring"""
-    print('死んじまったじゃねえか')
 
-# shimarin()
-print(shimarin.__doc__)
-# help(shimarin)
+def task(f):
+    print('start')
+    print(f())
+
+# def outer(x, y):
+#     def inner():
+#         return x + y
+#     return inner
+
+# f = outer(10, 20)
+p = functools.partial(f, 10, 20)
+task(p)
+
+# task(f)
+# task(lambda x, y: x + y)
