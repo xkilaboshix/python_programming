@@ -1,22 +1,38 @@
-import functools
+import turtle
 
+turtle.pencolor('orange')
+for i in range(200):
+    turtle.fd(i)
+    turtle.left(360/4 + 20)
 
-def f(x, y):
-    return x + y
+# turtle.pencolor('green')
+#
+# for i in range(60):
+#     turtle.fd(50)
+#     turtle.left(360/3 + 10)
+#
+# turtle.pencolor('red')
+#
+# for i in range(60):
+#     turtle.fd(200)
+#     turtle.left(360/3 + 10)
+#
+# turtle.color('red', 'yellow')
+#
+# turtle.begin_fill()
+# for i in range(5 * 3):
+#     turtle.forward(100 + i * 10)
+#     turtle.right(360 / 5 * 2)
+# turtle.end_fill()
+#
+# turtle.done()
 
-
-def task(f):
-    print('start')
-    print(f())
-
-# def outer(x, y):
-#     def inner():
-#         return x + y
-#     return inner
-
-# f = outer(10, 20)
-p = functools.partial(f, 10, 20)
-task(p)
-
-# task(f)
-# task(lambda x, y: x + y)
+# turtle.color('red', 'yellow')
+#
+# turtle.begin_fill()
+# for _ in range(4):
+#     turtle.forward(100)
+#     turtle.right(90)
+# turtle.end_fill()
+#
+turtle.done()
