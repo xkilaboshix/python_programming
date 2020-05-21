@@ -1,15 +1,19 @@
-import json
-import pprint
+import enum
 
-l = ['apple', 'orange', 'banana', 'peach', 'mango']
-l.insert(0, l[:])
-l.insert(0, l[:])
-l.insert(0, l[:])
-l.insert(0, l[:])
 
-print(l)
+class Status(enum.Enum):
+    ACTIVE = 1
+    INACTIVE = 2
+    RUNNING = 3
 
-pp = pprint.PrettyPrinter(
-    indent=4, width=40, compact=True, depth=3
-)
-pp.pprint(l)
+# print(Status.ACTIVE)
+# print(Status(2))
+# print(repr(Status.ACTIVE))
+# print(Status.ACTIVE.name)
+# print(Status.ACTIVE.value)
+#
+# for s in Status:
+#     print(s)
+#     print(type(s))
+
+
