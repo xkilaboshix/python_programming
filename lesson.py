@@ -1,20 +1,31 @@
 import enum
 
 
-db = {
-    'stack1': 1,
-    'stack2': 2,
-}
+class Perm(enum.IntFlag):
+    R = 4
+    W = 2
+    X = 1
 
-class Status(enum.Enum):
-    ACTIVE = 1
-    INACTIVE = 2
-    RUNNING = 3
+print(Perm.R | Perm.W)
+print(repr(Perm.R | Perm.W | Perm.X))
+RWX = Perm.R | Perm.W | Perm.X
+print(Perm.W in RWX)
 
-if Status(db['stack1']) == Status.ACTIVE:
-    print('shutdown')
-elif Status(db['stack1']) == Status.INACTIVE:
-    print('terminate')
+
+# db = {
+#     'stack1': 1,
+#     'stack2': 2,
+# }
+#
+# class Status(enum.Enum):
+#     ACTIVE = 1
+#     INACTIVE = 2
+#     RUNNING = 3
+#
+# if Status(db['stack1']) == Status.ACTIVE:
+#     print('shutdown')
+# elif Status(db['stack1']) == Status.INACTIVE:
+#     print('terminate')
 
 # print(Status.ACTIVE)
 # print(Status(2))
