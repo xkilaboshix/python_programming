@@ -1,67 +1,38 @@
-import csv
-from termcolor import colored
-from termcolor import cprint
-
-def read_csv():
-    with open('ranking.csv', 'r') as csv_file:
-        reader = csv.DictReader(csv_file)
-        data = []
-        for row in reader:
-           data.append(row)
-        return data
-
-data = read_csv()
-dic = {}
-for d in data:
-    dic.update({d['NAME']: int(d['COUNT'])})
+from random import random
+from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.uix.button import Button
+from kivy.graphics import Color, Ellipse, Line
 
 
-def write_csv(data, restaurant):
-    with open('ranking.csv', 'w') as csv_file:
-        fieldnames = ['NAME', 'COUNT']
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writeheader()
+class MyPaintWidget(Widget):
 
-        for i in range(len(data)):
-            if restaurant == data[i]['NAME']:
-                data[i]['COUNT'] = int(data[i]['COUNT']) + 1
-                for d in data:
-                    writer.writerow(d)
+    def on_touch_down(self, touch):
+        color = (random(), 1, 1)
+        with self.canvas:
+            Color(*color, mode='hsv')
+            d = 30.
+            Ellipse(pos=(touch.x - d / 2, touch.y - d / 2), size=(d, d))
+            touch.ud['line'] = Line(points=(touch.x, touch.y))
 
-        if restaurant not in dic.keys():
-             for d in data:
-                 writer.writerow(d)
-             count = 1
-             writer.writerow({'NAME': restaurant, 'COUNT': count})
+    def on_touch_move(self, touch):
+        touch.ud['line'].points += [touch.x, touch.y]
 
 
-while True:
-    cprint('=' * 40, 'green')
-    name = input(colored('Hello, I am Roboko. What is your name?\n' + '=' * 40 + '\n', 'green')).capitalize()
-    if name:
-        break
-    cprint('Please enter your name!', 'red')
+class MyPaintApp(App):
+
+    def build(self):
+        parent = Widget()
+        self.painter = MyPaintWidget()
+        clearbtn = Button(text='Clear')
+        clearbtn.bind(on_release=self.clear_canvas)
+        parent.add_widget(self.painter)
+        parent.add_widget(clearbtn)
+        return parent
+
+    def clear_canvas(self, obj):
+        self.painter.canvas.clear()
 
 
-if data != []:
-    dic2 = sorted(dic.items(), key=lambda x:x[1], reverse=True)
-    for d in dic2:
-        while True:
-            recommend = colored('I recommend {} restaurant.\nDo you like it? [Yes/No]\n' + '=' * 40 + '\n', 'green')
-            cprint('=' * 40, 'green')
-            answer = input(recommend.format(d[0])).upper()
-            if answer == 'YES' or answer == 'NO' or answer == 'Y' or answer == 'N':
-                break
-
-
-while True:
-    cprint('=' * 40, 'green')
-    restaurant = input(colored(name + ', which restaurants do you like?\n' + '=' * 40 + '\n', 'green')).title()
-    cprint('=' * 40, 'green')
-
-    fin = colored('Roboko: Thank you so much, {}!\nHave a good day!\n' + '=' * 40 + '\n', 'green')
-    print(fin.format(name))
-    if restaurant:
-        write_csv(data=read_csv(), restaurant=restaurant)
-        break
-
+if __name__ == '__main__':
+    MyPaintApp().run()
