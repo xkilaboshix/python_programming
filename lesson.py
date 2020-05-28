@@ -1,8 +1,7 @@
-import tasks
+def g_hello():
+    yield 'hello 1'
+    yield 'hello 2'
+    yield 'hello 3'
 
-
-result = tasks.deploy_customer_server.delay()
-print('doing...')
-print(result)
-
-
+for g in g_hello():
+    print(g)
