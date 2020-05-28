@@ -1,21 +1,15 @@
-def s_hello():
-    yield 'hello 1'
-    yield 'hello 2'
-    yield 'hello 3'
-    return 'done'
+import asyncio
 
 
-def g_hello():
-    while True:
-        r = yield from s_hello()
-        yield r
+loop = asyncio.get_event_loop()
 
-g = g_hello()
-print(next(g))
-print(next(g))
-print(next(g))
-print(next(g))
-print(next(g))
-print(next(g))
-print(next(g))
-print(next(g))
+
+@asyncio.coroutine
+def worker():
+    print('start')
+    yield from asyncio.sleep(2)
+    print('stop')
+
+if __name__ == '__main__':
+    loop.run_until_complete(asyncio.wait([worker(), worker()]))
+    loop.close()
